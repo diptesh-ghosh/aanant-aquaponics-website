@@ -729,58 +729,6 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Download Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 text-gray-900">
-              Download Technical Documentation
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Access detailed technical specifications, system designs, and implementation guides
-              for our proven aquaponics methodology.
-            </p>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card className="hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <Leaf className="w-12 h-12 text-green-600 mx-auto mb-4" />
-                  <h3 className="font-bold text-gray-900 mb-2">System Blueprints</h3>
-                  <p className="text-sm text-gray-600 mb-4">Complete technical drawings and specifications</p>
-                  <Button className="w-full bg-green-700 hover:bg-green-800">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PDF
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card className="hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <Fish className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                  <h3 className="font-bold text-gray-900 mb-2">Maintenance Guide</h3>
-                  <p className="text-sm text-gray-600 mb-4">Step-by-step maintenance procedures</p>
-                  <Button className="w-full bg-blue-700 hover:bg-blue-800">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PDF
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card className="hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <DollarSign className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                  <h3 className="font-bold text-gray-900 mb-2">Income Guide</h3>
-                  <p className="text-sm text-gray-600 mb-4">Revenue generation strategies and pricing</p>
-                  <Button className="w-full bg-purple-700 hover:bg-purple-800">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PDF
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Call to Action */}
       <section className="py-16 bg-gradient-to-r from-green-600 to-blue-600 text-white">
@@ -798,7 +746,7 @@ export default function GalleryPage() {
               <Button size="lg" className="bg-white text-green-700 hover:bg-gray-100">
                 Schedule a Consultation
               </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10 bg-transparent">
                 <Play className="w-5 h-5 mr-2" />
                 Watch Video Tour
               </Button>
