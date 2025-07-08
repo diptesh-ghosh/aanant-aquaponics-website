@@ -846,19 +846,19 @@ export default function VisitPage() {
       <section className="py-16 bg-gradient-to-r from-green-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Ready to Experience AQI 15 in Person?
             </h2>
-            <p className="text-xl mb-8 text-green-100">
-              Book your visit today and see firsthand how our aquaponics systems transform air quality,
-              create natural cooling, and generate sustainable income.
+            <p className="text-xl mb-8 text-white">
+              Book your visit today and see firsthand how our aquaponics systems 
+              transform air quality, create natural cooling, and generate sustainable income.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-green-700 hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-green-700 hover:bg-gray-100 px-8">
                 Book Delhi Home Tour
               </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10 bg-transparent px-8">
                 Explore All Locations
               </Button>
             </div>
