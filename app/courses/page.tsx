@@ -295,7 +295,8 @@ export default function CoursesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <>
+      <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
       {/* Header */}
       <div className="bg-white border-b">
@@ -536,6 +537,7 @@ export default function CoursesPage() {
         </div>
       </div>
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
