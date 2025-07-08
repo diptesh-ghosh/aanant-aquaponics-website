@@ -851,12 +851,16 @@ export default function SuccessStoriesPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-green-700 hover:bg-gray-100">
-                Explore Our Courses
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <a href="/courses" className="flex items-center">
+                  Explore Our Courses
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </a>
               </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Join Our Community
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10 bg-transparent">
+                <a href="/dashboard" className="flex items-center">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Join Our Community
+                </a>
               </Button>
             </div>
           </div>
@@ -883,9 +887,9 @@ export default function SuccessStoriesPage() {
                     placeholder="Your email address"
                     className="flex-1 px-4 py-3 rounded-lg border"
                   />
-                  <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10 bg-white/10">
-                    <a href="/courses">Explore Our Courses</a>
-                    <a href="/dashboard">Join Our Community</a>
+                  <Button className="bg-green-700 hover:bg-green-800">
+                    <Mail className="w-5 h-5 mr-2" />
+                    Subscribe
                   </Button>
                 </div>
                 <p className="text-xs text-gray-500 mt-4">
