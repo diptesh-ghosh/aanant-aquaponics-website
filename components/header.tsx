@@ -36,6 +36,7 @@ export function Header() {
     { name: 'Success Stories', href: '/success-stories', icon: Award },
     { name: 'Blog', href: '/blog', icon: FileText },
     { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+    { name: 'Services', href: '/services', icon: Settings },
     { name: 'Gallery', href: '/gallery', icon: Image },
     { name: 'Visit Us', href: '/visit', icon: Calendar },
     { name: 'About Dr. Singh', href: '/about', icon: User },
