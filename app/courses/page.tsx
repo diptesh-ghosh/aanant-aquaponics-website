@@ -243,8 +243,17 @@ export default function CoursesPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
-  const { addItem } = useCart();
+  const { addItem, removeItem, items } = useCart();
   const [addedToCart, setAddedToCart] = useState<{[key: string]: boolean}>({});
+
+  // Initialize addedToCart state based on items in cart
+  useEffect(() => {
+    const cartState: {[key: string]: boolean} = {};
+    items.forEach(item => {
+      cartState[item.id] = true;
+    });
+    setAddedToCart(cartState);
+  }, [items]);
 
   const filteredCourses = allCourses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -290,6 +299,7 @@ export default function CoursesPage() {
   };
 
   const handleRemoveFromCart = (courseId: string) => {
+    removeItem(courseId);
     setAddedToCart(prev => ({...prev, [courseId]: false}));
     toast.success("Removed from cart");
   };
@@ -300,7 +310,7 @@ export default function CoursesPage() {
       <Header />
       {/* Header */}
       <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 overflow-hidden">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
@@ -313,7 +323,7 @@ export default function CoursesPage() {
             </div>
 
             {/* Search and Filters */}
-            <div className="grid md:grid-cols-4 gap-4 mb-8 w-full">
+            <div className="grid md:grid-cols-4 gap-4 mb-8 w-full" style={{ minHeight: '52px' }}>
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
