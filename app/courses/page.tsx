@@ -19,7 +19,9 @@ import {
   Download,
   CheckCircle,
   Award,
-  TrendingUp
+  TrendingUp,
+  ShoppingCart,
+  Trash2
 } from 'lucide-react';
 import { useCart } from '@/contexts/cart-context';
 import { toast } from 'sonner';
@@ -379,7 +381,6 @@ export default function CoursesPage() {
           </div>
         </div>
       </div>
-      <Footer />
 
       {/* Course Grid */}
       <div className="container mx-auto px-4 py-8">
@@ -405,23 +406,7 @@ export default function CoursesPage() {
                         <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
                           <Award className="w-3 h-3 mr-1" />
                           Certificate
-                      {!addedToCart[course.id] ? (
-                        <Button
-                          onClick={() => handleAddToCart(course, course.id)}
-                          disabled={course.availability === 'Out of Stock'}
-                          className="w-full bg-green-700 hover:bg-green-800"
-                        >
-                          <ShoppingCart className="w-4 h-4 mr-2" />
-                          Add to Cart
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => handleRemoveFromCart(course.id)}
-                          className="w-full bg-red-600 hover:bg-red-700"
-                        >
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Remove from Cart
-                        </Button>
+                        </Badge>
                       )}
                     </div>
                   </div>
@@ -495,12 +480,23 @@ export default function CoursesPage() {
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <Button
-                      onClick={() => handleAddToCart(course)}
-                      className="flex-1 bg-green-700 hover:bg-green-800"
-                    >
-                      Add to Cart
-                    </Button>
+                    {!addedToCart[course.id] ? (
+                      <Button
+                        onClick={() => handleAddToCart(course, course.id)}
+                        className="flex-1 bg-green-700 hover:bg-green-800"
+                      >
+                        <ShoppingCart className="w-4 h-4 mr-2" />
+                        Add to Cart
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => handleRemoveFromCart(course.id)}
+                        className="flex-1 bg-red-600 hover:bg-red-700"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Remove from Cart
+                      </Button>
+                    )}
                     <Button variant="outline" size="sm">
                       <Download className="w-4 h-4" />
                     </Button>
@@ -539,6 +535,7 @@ export default function CoursesPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
