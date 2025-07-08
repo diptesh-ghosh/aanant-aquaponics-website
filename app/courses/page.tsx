@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -240,6 +242,7 @@ export default function CoursesPage() {
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
   const { addItem } = useCart();
+  const [addedToCart, setAddedToCart] = useState<{[key: string]: boolean}>({});
 
   const filteredCourses = allCourses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -265,7 +268,7 @@ export default function CoursesPage() {
     }
   });
 
-  const handleAddToCart = (course: typeof allCourses[0]) => {
+  const handleAddToCart = (course: typeof allCourses[0], courseId: string) => {
     addItem({
       id: course.id,
       type: 'course',
@@ -281,10 +284,17 @@ export default function CoursesPage() {
       }
     });
     toast.success(`${course.title} added to cart!`);
+    setAddedToCart(prev => ({...prev, [courseId]: true}));
+  };
+
+  const handleRemoveFromCart = (courseId: string) => {
+    setAddedToCart(prev => ({...prev, [courseId]: false}));
+    toast.success("Removed from cart");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Header />
       {/* Header */}
       <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-8">
@@ -300,7 +310,7 @@ export default function CoursesPage() {
             </div>
 
             {/* Search and Filters */}
-            <div className="grid md:grid-cols-4 gap-4 mb-8">
+            <div className="grid md:grid-cols-4 gap-4 mb-8 w-full">
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
@@ -369,6 +379,7 @@ export default function CoursesPage() {
           </div>
         </div>
       </div>
+      <Footer />
 
       {/* Course Grid */}
       <div className="container mx-auto px-4 py-8">
@@ -394,14 +405,24 @@ export default function CoursesPage() {
                         <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
                           <Award className="w-3 h-3 mr-1" />
                           Certificate
-                        </Badge>
+                      {!addedToCart[course.id] ? (
+                        <Button
+                          onClick={() => handleAddToCart(course, course.id)}
+                          disabled={course.availability === 'Out of Stock'}
+                          className="w-full bg-green-700 hover:bg-green-800"
+                        >
+                          <ShoppingCart className="w-4 h-4 mr-2" />
+                          Add to Cart
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => handleRemoveFromCart(course.id)}
+                          className="w-full bg-red-600 hover:bg-red-700"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Remove from Cart
+                        </Button>
                       )}
-                    </div>
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <Button size="lg" className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm">
-                        <Play className="w-5 h-5 mr-2" />
-                        Preview Course
-                      </Button>
                     </div>
                   </div>
                 </CardHeader>

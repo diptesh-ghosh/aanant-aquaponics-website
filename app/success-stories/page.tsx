@@ -837,65 +837,6 @@ export default function SuccessStoriesPage() {
         </div>
       </section>
 
-      {/* Featured Success Stories */}
-      {activeTab !== 'stories' && (
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">Featured Success Stories</h2>
-                <Button variant="outline">
-                  View All Stories
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-8">
-                {featuredStories.map((story) => (
-                  <Card key={story.id} className="hover:shadow-xl transition-all duration-300">
-                    <div className="relative h-48">
-                      <img
-                        src={story.image}
-                        alt={story.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                      <div className="absolute bottom-4 left-4 right-4 text-white">
-                        <h3 className="text-xl font-bold mb-1">{story.name}</h3>
-                        <div className="flex items-center gap-2 text-sm">
-                          <MapPin className="w-4 h-4" />
-                          <span>{story.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-                        <div className="text-center p-2 bg-blue-50 rounded-lg">
-                          <div className="font-semibold text-blue-700">AQI {story.afterAQI}</div>
-                          <div className="text-xs text-gray-600">From {story.beforeAQI}</div>
-                        </div>
-                        <div className="text-center p-2 bg-green-50 rounded-lg">
-                          <div className="font-semibold text-green-700">₹{story.monthlyIncome.toLocaleString()}</div>
-                          <div className="text-xs text-gray-600">Monthly Income</div>
-                        </div>
-                      </div>
-                      
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-3 italic">
-                        "{story.testimonial}"
-                      </p>
-                      
-                      <Button variant="outline" className="w-full">
-                        Read Full Story
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Join the Community */}
       <section className="py-16 bg-gradient-to-r from-green-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
@@ -942,9 +883,9 @@ export default function SuccessStoriesPage() {
                     placeholder="Your email address"
                     className="flex-1 px-4 py-3 rounded-lg border"
                   />
-                  <Button className="bg-green-700 hover:bg-green-800">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Subscribe
+                  <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10 bg-white/10">
+                    <a href="/courses">Explore Our Courses</a>
+                    <a href="/dashboard">Join Our Community</a>
                   </Button>
                 </div>
                 <p className="text-xs text-gray-500 mt-4">
