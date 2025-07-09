@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
 
 interface AQIWidgetProps {
   location: 'delhi' | 'aanant';
@@ -33,20 +34,65 @@ const getAQIData = (location: 'delhi' | 'aanant') => {
 };
 
 export function AQIWidget({ location, className }: AQIWidgetProps) {
-  const [aqiData, setAQIData] = useState(getAQIData(location));
+  const [aqiData, setAQIData] = useState<any>(getAQIData(location));
   const [lastUpdated, setLastUpdated] = useState(new Date());
+  const supabase = createClient();
 
   useEffect(() => {
-    // Update AQI data every 5 minutes for Delhi, keep Aanant constant
-    const interval = setInterval(() => {
-      if (location === 'delhi') {
+    // Fetch real AQI data from the API
+    const fetchAQIData = async () => {
+      try {
+        const response = await fetch(`/api/aqi?location=${location}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch AQI data');
+        }
+        
+        const data = await response.json();
+        
+        // Determine color based on AQI value
+        let color = 'text-green-600';
+        let bgColor = 'bg-green-100';
+        
+        if (data.current_aqi > 300) {
+          color = 'text-red-700';
+          bgColor = 'bg-red-100';
+        } else if (data.current_aqi > 200) {
+          color = 'text-red-600';
+          bgColor = 'bg-orange-100';
+        } else if (data.current_aqi > 150) {
+          color = 'text-orange-600';
+          bgColor = 'bg-orange-100';
+        } else if (data.current_aqi > 100) {
+          color = 'text-yellow-600';
+          bgColor = 'bg-yellow-100';
+        } else if (data.current_aqi > 50) {
+          color = 'text-yellow-500';
+          bgColor = 'bg-yellow-50';
+        }
+        
+        setAQIData({
+          value: data.current_aqi,
+          status: data.status,
+          color,
+          bgColor
+        });
+        
+        setLastUpdated(new Date(data.timestamp));
+      } catch (error) {
+        console.error('Error fetching AQI data:', error);
+        // Fall back to simulated data
         setAQIData(getAQIData(location));
         setLastUpdated(new Date());
       }
-    }, 5 * 60 * 1000); // 5 minutes
+    };
+    
+    fetchAQIData();
+    
+    // Update AQI data every 5 minutes
+    const interval = setInterval(fetchAQIData, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
-  }, [location]);
+  }, [location, supabase]);
 
   return (
     <div className="space-y-2">

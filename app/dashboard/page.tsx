@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/auth-context';
 import { AuthModal } from '@/components/auth-modal';
+import { createClient } from '@/lib/supabase/client';
 
 const mockCourseProgress = [
   {
@@ -67,37 +69,69 @@ const mockIncomeData = [
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [courseProgress, setCourseProgress] = useState<typeof mockCourseProgress>([]);
   const { user } = useAuth();
+  const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     setMounted(true);
+    
+    // Fetch user's course progress if logged in
+    if (user) {
+      fetchUserCourseProgress();
+    }
   }, []);
+
+  const fetchUserCourseProgress = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('enrollments')
+        .select(`
+          id,
+          progress,
+          courses:course_id (
+            id,
+            title
+          )
+        `)
+        .eq('user_id', user?.id);
+      
+      if (error) {
+        console.error('Error fetching course progress:', error);
+        return;
+      }
+      
+      if (data && data.length > 0) {
+        const formattedProgress = data.map(enrollment => ({
+          id: enrollment.courses.id,
+          title: enrollment.courses.title,
+          progress: enrollment.progress,
+          totalLessons: 12, // This would ideally come from the course data
+          completedLessons: Math.round((enrollment.progress / 100) * 12),
+          timeSpent: `${Math.round(enrollment.progress / 4)} hours`, // Just an example calculation
+          lastAccessed: '2 days ago', // This would ideally be stored in the database
+          status: enrollment.progress === 100 ? 'completed' : 'in-progress'
+        }));
+        
+        setCourseProgress(formattedProgress);
+      } else {
+        // If no enrollments, use mock data for now
+        setCourseProgress(mockCourseProgress);
+      }
+    } catch (error) {
+      console.error('Error fetching course progress:', error);
+    }
+  };
 
   if (!mounted) {
     return null;
   }
 
   if (!user) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="p-8 max-w-md mx-auto">
-          <CardContent className="text-center">
-            <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Access Your Dashboard</h2>
-            <p className="text-gray-600 mb-6">
-              Please log in to view your course progress, achievements, and analytics.
-            </p>
-            <Button 
-              onClick={() => setIsAuthModalOpen(true)}
-              className="bg-green-700 hover:bg-green-800"
-            >
-              Login to Dashboard
-            </Button>
-          </CardContent>
-        </Card>
-        <AuthModal open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen} />
-      </div>
-    );
+    // Redirect to login page
+    router.push('/login');
+    return null;
   }
 
   return (
@@ -189,7 +223,7 @@ export default function Dashboard() {
             {/* Courses Tab */}
             <TabsContent value="courses" className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
-                {mockCourseProgress.map((course) => (
+                {courseProgress.map((course) => (
                   <Card key={course.id}>
                     <CardHeader>
                       <div className="flex items-center justify-between">
